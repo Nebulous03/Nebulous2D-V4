@@ -1,0 +1,21 @@
+package nebulous.main;
+
+public class Game {
+	
+	private static boolean running = false;
+
+	public Game() {
+		
+	}
+	
+	public static void start(){ running = true; tick(); }
+	
+	public static void stop(){
+		running = false;
+	}
+	
+	private static void tick(){
+		
+	}
+
+}

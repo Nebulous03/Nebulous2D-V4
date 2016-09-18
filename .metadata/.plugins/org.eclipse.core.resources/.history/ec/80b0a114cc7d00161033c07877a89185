@@ -1,0 +1,18 @@
+package nebulous.main;
+
+public class GameMain extends Game{
+
+	private static final int width = 1366;
+	private static final int height = 768;
+	private static final String title = "Nebulous2D Game Engine";
+
+	public GameMain(int width, int height, String title) {
+		super(width, height, title);
+	}
+	
+	public static void main(String[] args) {
+		new GameMain;
+		game.start();
+	}
+
+}

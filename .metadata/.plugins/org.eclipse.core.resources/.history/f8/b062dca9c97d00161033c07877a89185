@@ -1,0 +1,15 @@
+package nebulous.main;
+
+import nebulous.graphics.Window;
+
+public class GameMain{
+
+	private static final int width = 1366;
+	private static final int height = 768;
+	private static final String title = "Nebulous2D Game Engine";
+
+	public static void main(String[] args) {
+		Game game = new Game().start();
+	}
+
+}

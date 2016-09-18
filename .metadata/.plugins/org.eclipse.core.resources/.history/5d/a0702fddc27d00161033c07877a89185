@@ -1,0 +1,11 @@
+package nebulous.graphics;
+
+public class Window {
+	
+	public static int WIDTH, HEIGHT;
+
+	public Window() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -1,0 +1,25 @@
+package nebulous.graphics;
+
+import org.lwjgl.glfw.GLFWErrorCallback;
+
+public class Window {
+	
+	private int WIDTH, HEIGHT;
+
+	public Window() {
+		
+	}
+	
+	public Window createWindow(int width, int height){
+		this.WIDTH = width;
+		this.HEIGHT = height;
+		
+		return this;
+	}
+	
+	private void initGLWindow(){
+		GLFWErrorCallback.createPrint(System.err).set();
+		
+	}
+
+}

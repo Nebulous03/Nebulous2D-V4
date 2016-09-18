@@ -1,0 +1,15 @@
+package nebulous.graphics;
+
+public class Window {
+	
+	public static int WIDTH, HEIGHT;
+
+	public Window() {
+		
+	}
+	
+	public Window createWindow(int width, int height){
+		
+	}
+
+}
