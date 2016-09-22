@@ -6,8 +6,10 @@ public class GameMain extends Game{
 	private static final int height = 768;
 	private static final String title = "Nebulous2D Game Engine";
 
+	public static GameMain game = new GameMain();
+	
 	public static void main(String[] args) {
-		GameMain game = new GameMain();
+		game.getWindow().vSync(false);
 		game.start();
 	}
 	
@@ -19,10 +21,15 @@ public class GameMain extends Game{
 	public void init() {
 		
 	}
+	
+	int i = 0;
 
 	@Override
 	public void update() {
-		
+		if(i == 100){
+			game.stop();
+		}
+		i++;
 	}
 
 	@Override

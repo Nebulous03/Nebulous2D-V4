@@ -1,9 +1,0 @@
-package nebulous.graphics;
-
-public class Window {
-
-	public Window() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

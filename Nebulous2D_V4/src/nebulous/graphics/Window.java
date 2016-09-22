@@ -51,6 +51,11 @@ public class Window {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 	
+	public void vSync(boolean enable){
+		if(enable) glfwSwapInterval(1);
+		else glfwSwapInterval(0);
+	}
+	
 	public void setVisable(boolean visable){
 		if(visable) glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
 		else glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
