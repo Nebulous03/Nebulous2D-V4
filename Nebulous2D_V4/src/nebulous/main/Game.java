@@ -55,6 +55,7 @@ public abstract class Game{
 				unprocessedTime -= updateSpeed;
 				
 				update();
+				window.update();
 				
 				if(frameCounter >= 1.0){
 					Console.println("FPS: " + frames);
@@ -64,8 +65,7 @@ public abstract class Game{
 			}
 			
 			render();
-			glfwSwapBuffers(window.getWindowID());
-			glfwPollEvents();
+			window.render();
 			frames++;
 			
 		}

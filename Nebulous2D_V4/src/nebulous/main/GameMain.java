@@ -1,16 +1,7 @@
 package nebulous.main;
 
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
-
 import nebulous.graphics.Mesh;
 import nebulous.graphics.Shader;
-import nebulous.utils.BufferUtilities;
 
 public class GameMain extends Game{
 
@@ -37,13 +28,24 @@ public class GameMain extends Game{
 		shader = new Shader("/shaders/shader.vs", "/shaders/shader.fs");
 		
 		float[] vertices = new float[]{
-		        -0.5f,  0.5f, 0.0f,
-		        -0.5f, -0.5f, 0.0f,
-		         0.5f, -0.5f, 0.0f,
-		         0.5f,  0.5f, 0.0f,
-		    };
-		
-		mesh = new Mesh(vertices);
+			        -0.5f,  0.5f, 0.0f,
+			        -0.5f, -0.5f, 0.0f,
+			         0.5f, -0.5f, 0.0f,
+			         0.5f,  0.5f, 0.0f,
+			};
+		 
+		int[] indices = new int[]{
+			        0, 1, 3, 3, 1, 2,
+			};
+		 
+		float[] colors = new float[]{
+				    1f, 0.0f, 0.0f,
+				    0.0f, 1f, 0.0f,
+				    0.0f, 0.0f, 1f,
+				    0.0f, 1f, 1f,
+			};
+		 
+		mesh = new Mesh(vertices, indices, colors);
 	}
 	
 	@Override

@@ -1,0 +1,54 @@
+package nebulous.graphics;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
+
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+
+import nebulous.utils.BufferUtilities;
+
+public class Mesh {
+	
+	private int vao;
+	private int vbo;
+	private int ibo;
+	private int vCount;
+
+	public Mesh(float[] vertices, int[] indices) {
+		FloatBuffer vertexBuffer = BufferUtilities.createFloatBuffer(vertices.length);
+		vertexBuffer.put(vertices).flip();
+		IntBuffer indexBuffer = BufferUtilities.createIntBuffer(indices.length);
+		indexBuffer.put(indices).flip();
+		
+		vCount = vertices.length / 2;
+		
+		vao = glGenVertexArrays();
+		vbo = glGenBuffers();
+		ibo = glGenBuffers();
+		
+		glBindVertexArray(vao);
+		
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer, GL_STATIC_DRAW);
+		
+		glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+	}
+	
+	public void render(){
+	    glBindVertexArray(vao);
+	    glEnableVertexAttribArray(0);
+
+	    glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
+
+	    glDisableVertexAttribArray(0);
+	    glBindVertexArray(0);
+	}
+	
+	//TODO: Add custom shader abilities
+
+}

@@ -15,6 +15,7 @@ public class Window {
 	private String TITLE;
 	private int WIDTH, HEIGHT;
 	private long windowID = 0;
+	private boolean resized = false;
 
 	public Window() {}
 	
@@ -37,11 +38,28 @@ public class Window {
 			throw new IllegalStateException("ERROR: Unable to initialize GLFW!");
 		}
 		
+		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
-		
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        
 		windowID = glfwCreateWindow(WIDTH, HEIGHT, TITLE, 0, 0);
 		if(windowID == 0){ throw new RuntimeException("ERROR: Failed to create the GLFW window!");}
+		
+		GLFWWindowSizeCallback windowSizeCallback = new GLFWWindowSizeCallback() {
+			@Override
+			public void invoke(long window, int width, int height) {
+				Window.this.WIDTH = width;
+				Window.this.HEIGHT = height;
+				Window.this.resized = true;
+			}
+		}; glfwSetWindowSizeCallback(windowID, windowSizeCallback);
+		
+		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        glfwSetWindowPos(windowID,(vidmode.width() - WIDTH) / 2,(vidmode.height() - HEIGHT) / 2);
 		
 		glfwMakeContextCurrent(windowID);
 		glfwSwapInterval(1);
@@ -49,6 +67,23 @@ public class Window {
 		GL.createCapabilities();
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+	
+	public boolean isResized(){
+		return resized;
+	}
+
+	public void update(){
+		if (resized) {
+            glViewport(0, 0, WIDTH, HEIGHT);
+            resized = false;
+            Console.println("Window Resized: " + HEIGHT + ", " + WIDTH);
+        }
+	}
+	
+	public void render(){
+		glfwSwapBuffers(windowID);
+		glfwPollEvents();
 	}
 	
 	public void vSync(boolean enable){
