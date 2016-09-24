@@ -5,3 +5,13 @@
 1474220730434	Rename type 'GameManager'
 1474566640154	Delete element
 1474566675803	Rename field 'framecap'
+1474647952240	Rename resource 'shader.vx'
+1474647957770	Rename resource 'shader.fx'
+1474651191463	Rename local variable 'fID'
+1474651250440	Rename method 'genVertex'
+1474651257062	Rename method 'genFragment'
+1474651873467	Rename local variable 'vertex'
+1474651881491	Rename local variable 'fragment'
+1474654520679	Rename local variable 'verticesBuffer'
+1474656718249	Move files
+1474656880214	Move files

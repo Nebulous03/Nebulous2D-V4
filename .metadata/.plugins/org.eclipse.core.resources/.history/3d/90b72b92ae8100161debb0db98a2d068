@@ -1,0 +1,7 @@
+package nebulous.utils;
+
+public interface LogicComponent {
+	
+	public void update();
+
+}

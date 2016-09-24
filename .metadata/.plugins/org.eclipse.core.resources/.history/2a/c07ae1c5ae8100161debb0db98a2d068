@@ -1,0 +1,26 @@
+package nebulous.graphics;
+
+import nebulous.utils.LogicComponent;
+
+public class Shader implements LogicComponent{
+	
+	public Shader(){
+		
+	}
+
+	@Override
+	public void init() {
+		
+	}
+
+	@Override
+	public void update(double delta) {
+		
+	}
+
+	@Override
+	public void render() {
+		
+	}
+
+}

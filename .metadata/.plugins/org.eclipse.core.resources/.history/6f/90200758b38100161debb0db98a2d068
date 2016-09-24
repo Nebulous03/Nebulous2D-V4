@@ -1,0 +1,54 @@
+package nebulous.graphics;
+
+import static org.lwjgl.opengl.GL20.*;
+
+public class Shader{
+	
+	private int programID;
+	
+	private int vertexID;
+	private int fragmentID;
+	
+	public Shader(String vertex, String fragment){
+		this.programID = glCreateProgram();					//TODO: add error support
+		this.vertexID = attachVertex(vertex);
+		this.fragmentID = attachFragment(fragment);
+	}
+	
+	public int attachVertex(String vertex){
+		int shaderID = glCreateShader(GL_VERTEX_SHADER);	//TODO: add error support
+		glShaderSource(shaderID, vertex);					//TODO: add error support
+		glCompileShader(shaderID);							//TODO: add error support
+		glAttachShader(programID, shaderID);				//TODO: add error support
+		return shaderID;
+	}
+	
+	public int attachFragment(String fragment){
+		int shaderID = glCreateShader(GL_FRAGMENT_SHADER);	//TODO: add error support
+		glShaderSource(shaderID, fragment);					//TODO: add error support
+		glCompileShader(shaderID);							//TODO: add error support
+		glAttachShader(programID, shaderID);				//TODO: add error support
+		return shaderID;
+	}
+	
+	public void linkAndCompile(){
+		glLinkProgram(programID);							//TODO: add error support
+		glValidateProgram(programID);						//TODO: add error support
+	}	
+	
+	public void bind(){
+		glUseProgram(programID);							//TODO: add error support
+	}
+	
+	public void unbind(){
+		glUseProgram(0);									//TODO: add error support
+	}
+	
+	public void remove(){
+		unbind();
+		glDetachShader(programID, vertexID);
+		glDetachShader(programID, fragmentID);
+		glDeleteProgram(programID);
+	}
+
+}

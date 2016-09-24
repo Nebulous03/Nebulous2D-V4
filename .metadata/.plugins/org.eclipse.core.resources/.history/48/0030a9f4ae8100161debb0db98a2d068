@@ -1,0 +1,13 @@
+package nebulous.utils;
+
+public interface LogicComponent {
+	
+	public LogicComponent(){
+		
+	}
+	
+	public void init();
+	public void update(double delta);
+	public void render();
+
+}

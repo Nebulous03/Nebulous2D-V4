@@ -1,0 +1,17 @@
+package nebulous.graphics;
+
+public class Shader{
+	
+	public String vertex;
+	public String fragment;
+	
+	public Shader(String vertex, String fragment){
+		this.vertex = vertex;
+		this.fragment = fragment;
+	}
+	
+	public void bind(){
+		
+	}
+
+}
