@@ -3,6 +3,7 @@ package nebulous.main;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
+import nebulous.graphics.RenderEngine;
 import nebulous.graphics.Window;
 import nebulous.utils.Console;
 import nebulous.utils.Time;
@@ -21,9 +22,13 @@ public abstract class Game{
 		this.width = width;
 		this.height = height;
 		this.window = createWindow();
+		new RenderEngine(this);
 	}
 	
 	public void start(){
+		window.init();
+		RenderEngine.init();
+		init();
 		tick();
 	}
 	
@@ -34,8 +39,6 @@ public abstract class Game{
 	}
 	
 	private void tick(){
-		init();
-		
 		int frames = 0;
         double frameCounter = 0;
 		
@@ -55,7 +58,7 @@ public abstract class Game{
 				unprocessedTime -= updateSpeed;
 				
 				update();
-				window.update();
+				RenderEngine.update();
 				
 				if(frameCounter >= 1.0){
 					Console.println("FPS: " + frames);
@@ -64,8 +67,7 @@ public abstract class Game{
 				}
 			}
 			
-			render();
-			window.render();
+			RenderEngine.render();
 			frames++;
 			
 		}

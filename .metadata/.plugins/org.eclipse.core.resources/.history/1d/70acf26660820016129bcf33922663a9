@@ -1,0 +1,11 @@
+package nebulous.graphics;
+
+public class RenderEngine {
+	
+	private static float FOV = (float) Math.toRadians(80.0f);
+	
+	public RenderEngine(){
+		
+	}
+
+}

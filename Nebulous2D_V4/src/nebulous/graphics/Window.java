@@ -14,8 +14,11 @@ public class Window {
 	
 	private String TITLE;
 	private int WIDTH, HEIGHT;
+	private VideoMode videoMode;
 	private long windowID = 0;
 	private boolean resized = false;
+	private boolean fullscreen = false;
+	private boolean vSync = false;
 
 	public Window() {}
 	
@@ -23,12 +26,11 @@ public class Window {
 		this.TITLE = title;
 		this.WIDTH = width;
 		this.HEIGHT = height;
-		initGLWindow();
-		printGLStats();
+		this.videoMode = VideoMode.NORMAL;
 		return this;
 	}
 	
-	private void initGLWindow(){
+	public void init(){
 		GLFWErrorCallback.createPrint(System.err).set();
 		
 		if (glfwInit()){
@@ -41,12 +43,16 @@ public class Window {
 		glfwDefaultWindowHints();
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         
-		windowID = glfwCreateWindow(WIDTH, HEIGHT, TITLE, 0, 0);
+        if(videoMode == VideoMode.FULLSCREEN){
+        	windowID = glfwCreateWindow(WIDTH, HEIGHT, TITLE, glfwGetPrimaryMonitor(), 0);
+        	Console.println("Window Set Fullscreen: True");
+        } else windowID = glfwCreateWindow(WIDTH, HEIGHT, TITLE, 0, 0);
+        
 		if(windowID == 0){ throw new RuntimeException("ERROR: Failed to create the GLFW window!");}
 		
 		GLFWWindowSizeCallback windowSizeCallback = new GLFWWindowSizeCallback() {
@@ -56,17 +62,25 @@ public class Window {
 				Window.this.HEIGHT = height;
 				Window.this.resized = true;
 			}
-		}; glfwSetWindowSizeCallback(windowID, windowSizeCallback);
+		}; 
 		
-		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        glfwSetWindowPos(windowID,(vidmode.width() - WIDTH) / 2,(vidmode.height() - HEIGHT) / 2);
+		glfwSetWindowSizeCallback(windowID, windowSizeCallback);
+		
+		if(!fullscreen){
+			GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	        glfwSetWindowPos(windowID,(vidmode.width() - WIDTH) / 2,(vidmode.height() - HEIGHT) / 2);
+		}
 		
 		glfwMakeContextCurrent(windowID);
-		glfwSwapInterval(1);
+		
+		if(vSync)glfwSwapInterval(1);
+		else glfwSwapInterval(0);
 		
 		GL.createCapabilities();
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		
+		printGLStats();
 	}
 	
 	public boolean isResized(){
@@ -101,6 +115,16 @@ public class Window {
 		else glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	}
 	
+	public void setVideoMode(VideoMode mode){
+		this.videoMode = mode;
+	}
+	
+	public void setVideoMode(VideoMode mode, int width, int height){
+		this.WIDTH = width;
+		this.HEIGHT = height;
+		this.videoMode = mode;
+	}
+	
 	public static void printGLStats(){
         Console.printMOTD(
         " OPENGL: " + glGetString(GL_VERSION) + "\n" +
@@ -128,6 +152,18 @@ public class Window {
 
 	public long getWindowID() {
 		return windowID;
+	}
+
+	public boolean isFullscreen() {
+		return fullscreen;
+	}
+
+	public boolean isVSync() {
+		return vSync;
+	}
+
+	public void setVSync(boolean vSync) {
+		this.vSync = vSync;
 	}
 
 }

@@ -1,0 +1,28 @@
+package nebulous.graphics;
+
+import nebulous.utils.math.Matrix4f;
+
+public class RenderEngine {
+	
+	private static final float DEFAULT_FOV = 80.0f;
+	private static final float DEFAULT_Z_NEAR = 0.001f;
+	private static final float DEFAULT_Z_FAR = 1000f;
+	
+	private static float FOV = 80.0f; 	// Calc to radians
+	private static float Z_NEAR = 0.001f;
+	private static float Z_FAR = 1000f;
+	private static float aspectRatio;
+	private Matrix4f projection;
+	
+	private Window window;
+	
+	public RenderEngine(){
+		aspectRatio = 
+	}
+	
+	public static void render(Mesh mesh){
+		// DO
+		// Move stuff from mesh
+	}
+
+}

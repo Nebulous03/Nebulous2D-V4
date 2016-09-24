@@ -1,0 +1,49 @@
+package nebulous.graphics;
+
+import nebulous.main.Game;
+import nebulous.utils.math.Matrix4f;
+
+public class RenderEngine {
+	
+	private static final float DEFAULT_FOV = 80.0f;
+	private static final float DEFAULT_Z_NEAR = 0.001f;
+	private static final float DEFAULT_Z_FAR = 1000f;
+	
+	private static float FOV; 	// Calc to radians
+	private static float Z_NEAR;
+	private static float Z_FAR;
+	private static float aspectRatio;
+	private static Matrix4f projection;
+	
+	private static Window window;
+	private static Game game;
+	
+	public RenderEngine(Game game){
+		this.game = game;
+		this.window = game.getWindow(); // TODO: Move Window in here
+		this.FOV = DEFAULT_FOV;
+		this.Z_NEAR = DEFAULT_Z_NEAR;
+		this.Z_FAR = DEFAULT_Z_FAR;
+	}
+	
+	public static void init(){
+		aspectRatio = (float) window.getWidth() / window.getHeight();
+		projection = new Matrix4f().initPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
+		
+	}
+	
+	public static void update(){
+		window.update();
+	}
+	
+	public static void render(){
+		game.render();
+		window.render();
+	}
+	
+	public static void renderMesh(Mesh mesh){
+		// DO
+		// Move stuff from mesh
+	}
+
+}

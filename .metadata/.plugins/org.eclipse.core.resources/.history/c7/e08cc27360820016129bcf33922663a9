@@ -1,0 +1,13 @@
+package nebulous.graphics;
+
+public class RenderEngine {
+	
+	private static float FOV = (float) Math.toRadians(80.0f);
+	private static float Z_NEAR = 0.001f;
+	private static float Z_FAR = 1000f;
+	
+	public RenderEngine(){
+		
+	}
+
+}

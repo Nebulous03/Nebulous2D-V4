@@ -1,0 +1,5 @@
+package nebulous.graphics;
+
+public enum VideoMode {
+
+}

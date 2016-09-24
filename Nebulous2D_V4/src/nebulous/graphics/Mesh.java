@@ -12,14 +12,14 @@ import nebulous.utils.BufferUtilities;
 
 public class Mesh {
 	
-	private int vao; // Vertex Array Object
-	private int vbo; // Vertex Buffer Object
-	private int ibo; // Index Buffer Object
-	private int cbo; // Color Buffer Object;
-	private int vCount;
-
-	//TODO: Move all methods to renderer for efficiency
+	public int vao; // Vertex Array Object
+	public int vbo; // Vertex Buffer Object
+	public int ibo; // Index Buffer Object
+	public int cbo; // Color Buffer Object;
+	public int vCount;
 	
+	private Shader customShader = null;
+
 	public Mesh(float[] vertices, int[] indices, float[] colors) {
 		FloatBuffer vertexBuffer = BufferUtilities.createFloatBuffer(vertices.length);
 		vertexBuffer.put(vertices).flip();
@@ -50,17 +50,24 @@ public class Mesh {
 	}
 	
 	public void render(){
-	    glBindVertexArray(vao);
-	    glEnableVertexAttribArray(0);
-	    glEnableVertexAttribArray(1);
-
-	    glDrawElements(GL_TRIANGLES, vCount, GL_UNSIGNED_INT, 0);
-
-	    glDisableVertexAttribArray(0);
-	    glDisableVertexAttribArray(1);
-	    glBindVertexArray(0);
+		RenderEngine.renderMesh(this);
 	}
 	
-	//TODO: Add custom shader abilities
+	public void setCustomShader(Shader shader){
+		this.customShader = shader;
+	}
+	
+	public void removeCusomShader(){
+		this.customShader = null;
+	}
+	
+	public boolean hasCustomShader(){
+		return (customShader != null);
+	}
+	
+	public Shader getShader(){
+		if(customShader != null)return customShader;
+		else return RenderEngine.getDefaultShader();
+	}
 
 }
