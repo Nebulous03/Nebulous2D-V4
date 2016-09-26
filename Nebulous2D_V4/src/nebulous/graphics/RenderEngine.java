@@ -13,7 +13,7 @@ import nebulous.utils.math.Matrix4f;
 public class RenderEngine {
 	
 	private static final float DEFAULT_FOV = 80.0f;
-	private static final float DEFAULT_Z_NEAR = 0.001f;
+	private static final float DEFAULT_Z_NEAR = 0.01f;
 	private static final float DEFAULT_Z_FAR = 1000f;
 	private static Shader DEFAULT_SHADER;
 	
@@ -66,10 +66,11 @@ public class RenderEngine {
 		if(mesh.hasCustomShader()) mesh.getShader().bind();
 		else DEFAULT_SHADER.bind();
 		
+		mesh.updateUniforms();
 		glBindVertexArray(mesh.vao);
 	    glEnableVertexAttribArray(0);
 	    glEnableVertexAttribArray(1);
-
+	    
 	    glDrawElements(GL_TRIANGLES, mesh.vCount, GL_UNSIGNED_INT, 0);
 
 	    glDisableVertexAttribArray(0);
@@ -124,7 +125,7 @@ public class RenderEngine {
 		return aspectRatio;
 	}
 
-	public static Matrix4f getProjection() {
+	public static Matrix4f getProjectionMatrix() {
 		return projectionMatrix;
 	}
 

@@ -8,6 +8,8 @@ import static org.lwjgl.opengl.GL30.*;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import org.lwjgl.BufferUtils;
+
 import nebulous.utils.BufferUtilities;
 
 public class Mesh {
@@ -21,11 +23,11 @@ public class Mesh {
 	private Shader customShader = null;
 
 	public Mesh(float[] vertices, int[] indices, float[] colors) {
-		FloatBuffer vertexBuffer = BufferUtilities.createFloatBuffer(vertices.length);
+		FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
 		vertexBuffer.put(vertices).flip();
-		IntBuffer indexBuffer = BufferUtilities.createIntBuffer(indices.length);
+		IntBuffer indexBuffer = BufferUtils.createIntBuffer(indices.length);
 		indexBuffer.put(indices).flip();
-		FloatBuffer colorBuffer = BufferUtilities.createFloatBuffer(colors.length);
+		FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(colors.length);
 		colorBuffer.put(colors).flip();
 		
 		vCount = vertices.length / 2;
@@ -47,6 +49,22 @@ public class Mesh {
 		glBindBuffer(GL_ARRAY_BUFFER, cbo);
 		glBufferData(GL_ARRAY_BUFFER, colorBuffer, GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0); //Color
+		
+		unbindAll();
+	}
+	
+	public void unbindAll(){
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	    glBindVertexArray(0);
+	}
+	
+	public void delete(){				//TODO: Add actual use
+		glDeleteVertexArrays(vao);
+		glDeleteBuffers(vbo);
+	}
+	
+	public void updateUniforms(){
+		//getShader().setUniform("projectionMatrix", RenderEngine.getProjectionMatrix());
 	}
 	
 	public void render(){

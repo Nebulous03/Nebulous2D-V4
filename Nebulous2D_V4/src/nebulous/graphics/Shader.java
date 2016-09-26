@@ -5,47 +5,30 @@ import static org.lwjgl.opengl.GL20.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.lwjgl.BufferUtils;
 
 import nebulous.utils.Console;
+import nebulous.utils.math.Matrix4f;
 
-/**
- * Shader(String vertexFile, String fragmentFile)
- * <p>
- * An OpenGL shader used for graphics
- * <p>
- * @author NebulousDev
- *
- */
 public class Shader{
 	
 	private int programID;
-	
 	private int vertexID;
 	private int fragmentID;
-	
-	/**
-	 * @param vertexFile - Vertex file location (vs / vsf).
-	 * @param fragmentFile - Fragment file location (fs / fsf).
-	 * <p>
-	 * Constructor for the Shader class. Requires vertex and fragment
-	 * files. 
-	 * <p>
-	 * @author NebulousDev
-	 */
+	private final Map<String, Integer> uniforms;
 	
 	public Shader(String vertexFile, String fragmentFile){
 		this.programID = glCreateProgram();					//TODO: add error support
 		this.vertexID = attachVertex(vertexFile);
 		this.fragmentID = attachFragment(fragmentFile);
+		this.uniforms = new HashMap<String, Integer>();
 		linkAndCompile();
+		//addUniform("projectionMatrix");
 	}
-	
-	/**
-	 * Loads a shader file then compiles it to a usable shader.
-	 * <p>
-	 * @param filename - File location of the shader.
-	 * @return (String) - Returns a string usable for OpenGL.
-	 */
 	
 	public static String loadShader(String filename){
 		StringBuilder source = new StringBuilder();
@@ -71,14 +54,17 @@ public class Shader{
 		return source.toString();
 	}
 	
-	/**
-	 * Creates a GL_VERTEX_SHADER and attaches to the program.
-	 * <p>
-	 * @param vertex - Vertex file location (vs / vsf).
-	 * @return - (int) returns vertexID.
-	 * <p>
-	 * @author NebulousDev
-	 */
+	public void addUniform(String name){
+		int uniform = glGetUniformLocation(programID, name);	//TODO: add error support
+		if (uniform < 0) new Exception ("Could not find uniform: " + name).printStackTrace();;
+		uniforms.put(name, uniform);
+	}
+	
+	public void setUniform(String name, Matrix4f matrix4f){
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
+		buffer = matrix4f.toFloatBuffer();
+		glUniformMatrix4fv(uniforms.get(name), true, buffer);
+	}
 	
 	public int attachVertex(String vertex){
 		String vertexData = loadShader(vertex);
@@ -89,15 +75,6 @@ public class Shader{
 		return shaderID;
 	}
 	
-	/**
-	 * Creates a GL_FRAGMENT_SHADER and attaches to the program.
-	 * <p>
-	 * @param fragment - Fragment file location (fs / fsf).
-	 * @return - (int) returns fragmentID.
-	 * <p>
-	 * @author NebulousDev
-	 */
-	
 	public int attachFragment(String fragment){
 		String fragmentData = loadShader(fragment);
 		int shaderID = glCreateShader(GL_FRAGMENT_SHADER);	//TODO: add error support
@@ -107,42 +84,18 @@ public class Shader{
 		return shaderID;
 	}
 	
-	/**
-	 * Links and validates the shader prorgam.
-	 * <p>
-	 * @author NebulousDev
-	 */
-	
 	public void linkAndCompile(){
 		glLinkProgram(programID);							//TODO: add error support
 		glValidateProgram(programID);						//TODO: add error support
 	}	
 	
-	/**
-	 * Binds thes shader to be rendered.
-	 * <p>
-	 * @author NebulousDev
-	 */
-	
 	public void bind(){
 		glUseProgram(programID);							//TODO: add error support
 	}
-	
-	/**
-	 * Unbinds the shader.
-	 * <p>
-	 * @author NebulousDev
-	 */
-	
+
 	public void unbind(){
 		glUseProgram(0);									//TODO: add error support
 	}
-	
-	/**
-	 * Unbinds and removes the shader
-	 * <p>
-	 * @author NebulousDev
-	 */
 	
 	public void remove(){
 		unbind();

@@ -1,5 +1,7 @@
 package nebulous.utils;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -50,6 +52,12 @@ public class BufferUtilities {
 				buffer.put(value.get(i, j));
 		buffer.flip();
 		return buffer;
+	}
+	
+	public static FloatBuffer createFloatBuffer(float[] array) {
+		FloatBuffer result = ByteBuffer.allocateDirect(array.length << 2).order(ByteOrder.nativeOrder()).asFloatBuffer();
+		result.put(array).flip();
+		return result;
 	}
 	
 	public static String[] removeEmptyStrings(String[] data){

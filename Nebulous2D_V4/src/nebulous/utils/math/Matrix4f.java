@@ -1,5 +1,9 @@
 package nebulous.utils.math;
 
+import java.nio.FloatBuffer;
+
+import nebulous.utils.BufferUtilities;
+
 public class Matrix4f {
 	
 	private float[][] matrix;
@@ -145,6 +149,16 @@ public class Matrix4f {
 		for(int i = 0; i < 4; i++)
 			for(int j = 0; j < 4; j++)
 				res[i][j] = matrix[i][j];
+		return res;
+	}
+	
+	public FloatBuffer toFloatBuffer(){
+		FloatBuffer res;
+		float[] floats = new float[16];
+		for(int i = 0; i < 4; i++)
+			for(int j = 0; j < 4; j++)
+				floats[i + j] = matrix[i][j];
+		res = BufferUtilities.createFloatBuffer(floats);
 		return res;
 	}
 	

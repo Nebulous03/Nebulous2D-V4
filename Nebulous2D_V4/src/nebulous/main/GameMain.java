@@ -16,7 +16,7 @@ public class GameMain extends Game{
 	
 	public static void main(String[] args) {
 		game.getWindow().vSync(false);
-		//game.getWindow().setVideoMode(VideoMode.NORMAL, 1920, 1080);
+		//game.getWindow().setVideoMode(VideoMode.FULLSCREEN, 1920, 1080);
 		game.start();
 	}
 	
@@ -28,11 +28,11 @@ public class GameMain extends Game{
 	public void init() {
 		
 		float[] vertices = new float[]{
-			        -0.5f,  0.5f, 0.0f,
-			        -0.5f, -0.5f, 0.0f,
-			         0.5f, -0.5f, 0.0f,
-			         0.5f,  0.5f, 0.0f,
-			};
+				-0.5f,  0.5f, 0f,
+			    -0.5f, -0.5f, 0f,
+			     0.5f, -0.5f, 0f,
+			     0.5f,  0.5f, 0f,
+	        };
 		 
 		int[] indices = new int[]{
 			        0, 1, 3, 3, 1, 2,
@@ -44,8 +44,9 @@ public class GameMain extends Game{
 				    0.0f, 0.0f, 1f,
 				    0.0f, 1f, 1f,
 			};
+		
 		mesh = new Mesh(vertices, indices, colors);
-		mesh.setCustomShader(new Shader("/shaders/white.vs", "/shaders/white.fs"));
+		//mesh.setCustomShader(new Shader("/shaders/white.vs", "/shaders/white.fs"));
 		
 		
 	}
