@@ -2,12 +2,14 @@ package nebulous.graphics;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 import org.lwjgl.Version;
 import static org.lwjgl.opengl.GL11.*;
 
+import nebulous.graphics.enums.VideoMode;
 import nebulous.utils.Console;
 
 public class Window {
@@ -79,6 +81,8 @@ public class Window {
 		GL.createCapabilities();
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL_DEPTH_TEST);
 		
 		printGLStats();
 	}

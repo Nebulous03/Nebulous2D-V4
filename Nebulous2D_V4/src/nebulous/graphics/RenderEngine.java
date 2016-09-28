@@ -7,6 +7,14 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+
+import nebulous.graphics.enums.Projection;
+import nebulous.graphics.primatives.Mesh;
+import nebulous.graphics.primatives.Model;
+import nebulous.graphics.shaders.DefaultShader;
+import nebulous.graphics.shaders.Shader;
 import nebulous.main.Game;
 import nebulous.utils.math.Matrix4f;
 
@@ -45,7 +53,7 @@ public class RenderEngine {
 	}
 	
 	public static void init(){
-		DEFAULT_SHADER = new Shader("/shaders/defaultShader.vs", "/shaders/defaultShader.fs");
+		DEFAULT_SHADER = new DefaultShader();
 		aspectRatio = (float) window.getWidth() / window.getHeight();
 		if(projectionType == Projection.PERSPECTIVE)projectionMatrix = 
 				new Matrix4f().initPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
@@ -62,22 +70,25 @@ public class RenderEngine {
 		window.render();
 	}
 	
-	public static void renderMesh(Mesh mesh){
-		if(mesh.hasCustomShader()) mesh.getShader().bind();
+	public static void renderMesh(Model model){
+		Mesh mesh = model.getMesh();
+		if(model.hasCustomShader()) model.getShader().bind();
 		else DEFAULT_SHADER.bind();
 		
-		mesh.updateUniforms();
+		model.getShader().updateUniforms();
 		glBindVertexArray(mesh.vao);
 	    glEnableVertexAttribArray(0);
 	    glEnableVertexAttribArray(1);
-	    
+
+	    GL13.glActiveTexture(GL13.GL_TEXTURE0);
+	    GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().textureID);
 	    glDrawElements(GL_TRIANGLES, mesh.vCount, GL_UNSIGNED_INT, 0);
 
 	    glDisableVertexAttribArray(0);
 	    glDisableVertexAttribArray(1);
 	    glBindVertexArray(0);
 		
-		if(mesh.hasCustomShader()) mesh.getShader().unbind();
+		if(model.hasCustomShader()) model.getShader().unbind();
 		else DEFAULT_SHADER.unbind();
 	}
 	

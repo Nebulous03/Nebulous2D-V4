@@ -1,4 +1,4 @@
-package nebulous.graphics;
+package nebulous.graphics.shaders;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -10,11 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL20;
 
 import nebulous.utils.Console;
 import nebulous.utils.math.Matrix4f;
+import nebulous.utils.math.Vector3f;
 
-public class Shader{
+public abstract class Shader{
 	
 	private int programID;
 	private int vertexID;
@@ -54,16 +56,35 @@ public class Shader{
 		return source.toString();
 	}
 	
+	public abstract void addUniforms();
+	public abstract void updateUniforms();
+	
 	public void addUniform(String name){
 		int uniform = glGetUniformLocation(programID, name);	//TODO: add error support
 		if (uniform < 0) new Exception ("Could not find uniform: " + name).printStackTrace();;
 		uniforms.put(name, uniform);
 	}
 	
-	public void setUniform(String name, Matrix4f matrix4f){
+	public void setUniform1f(int location, float data){
+		glUniform1f(location, data);
+	}
+	
+	public void setUniform3f(int location, Vector3f data){
+		glUniform3f(location, data.getX(), data.getY(), data.getZ());
+	}
+	
+	public void setUniform1b(int location, boolean value){
+		glUniform1i(location, value ? 1 : 0);
+	}
+	
+	public void setUniformMat4f(int location, Matrix4f matrix4f){
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
 		buffer = matrix4f.toFloatBuffer();
-		glUniformMatrix4fv(uniforms.get(name), true, buffer);
+		glUniformMatrix4fv(location, true, buffer);
+	}
+	
+	public int getUniform(String name){
+		return glGetUniformLocation(programID, name);
 	}
 	
 	public int attachVertex(String vertex){

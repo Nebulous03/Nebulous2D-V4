@@ -1,8 +1,8 @@
 package nebulous.main;
 
-import nebulous.graphics.Mesh;
-import nebulous.graphics.Shader;
-import nebulous.graphics.VideoMode;
+import nebulous.graphics.primatives.Mesh;
+import nebulous.graphics.primatives.Model;
+import nebulous.graphics.primatives.Texture;
 
 public class GameMain extends Game{
 
@@ -13,6 +13,7 @@ public class GameMain extends Game{
 	public static GameMain game = new GameMain();
 	
 	public Mesh mesh;
+	public Model model;
 	
 	public static void main(String[] args) {
 		game.getWindow().vSync(false);
@@ -37,17 +38,17 @@ public class GameMain extends Game{
 		int[] indices = new int[]{
 			        0, 1, 3, 3, 1, 2,
 			};
-		 
-		float[] colors = new float[]{
-				    1f, 0.0f, 0.0f,
-				    0.0f, 1f, 0.0f,
-				    0.0f, 0.0f, 1f,
-				    0.0f, 1f, 1f,
-			};
+
+		float[] textureCoords = new float[]{
+				0,0,
+				0,1,
+				1,1,
+				1,0
+		};
 		
-		mesh = new Mesh(vertices, indices, colors);
-		//mesh.setCustomShader(new Shader("/shaders/white.vs", "/shaders/white.fs"));
-		
+		mesh = new Mesh(vertices, indices, textureCoords);
+		model = new Model(mesh, new Texture("/textures/unknown.png"));
+		//model.setCustomShader(new Shader("/shaders/white.vs", "/shaders/white.fs"));
 		
 	}
 	
@@ -58,7 +59,7 @@ public class GameMain extends Game{
 
 	@Override
 	public void render() {
-	    mesh.render();
+	    model.render();
 	}
 
 }

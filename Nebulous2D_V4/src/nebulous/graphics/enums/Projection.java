@@ -1,4 +1,4 @@
-package nebulous.graphics;
+package nebulous.graphics.enums;
 
 public enum Projection {
 	

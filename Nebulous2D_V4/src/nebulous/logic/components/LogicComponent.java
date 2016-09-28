@@ -1,4 +1,4 @@
-package nebulous.utils;
+package nebulous.logic.components;
 
 public interface LogicComponent {
 	

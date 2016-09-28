@@ -1,4 +1,4 @@
-package nebulous.graphics;
+package nebulous.graphics.primatives;
 
 import nebulous.utils.math.Vector2f;
 import nebulous.utils.math.Vector3f;

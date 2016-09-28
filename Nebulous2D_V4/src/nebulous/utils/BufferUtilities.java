@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.BufferUtils;
 
-import nebulous.graphics.Vertex;
+import nebulous.graphics.primatives.Vertex;
 import nebulous.utils.math.Matrix4f;
 
 
