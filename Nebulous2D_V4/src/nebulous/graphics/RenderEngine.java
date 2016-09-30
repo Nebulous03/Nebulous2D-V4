@@ -8,17 +8,16 @@ import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 import org.joml.Matrix4f;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-import nebulous.graphics.enums.Projection;
 import nebulous.graphics.primatives.Mesh;
 import nebulous.graphics.primatives.Model;
 import nebulous.graphics.primatives.Texture;
 import nebulous.graphics.shaders.DefaultShader;
 import nebulous.graphics.shaders.Shader;
+import nebulous.graphics.tiles.Tile;
 import nebulous.graphics.tiles.TileMap;
 import nebulous.logic.objects.GameObject;
 import nebulous.main.Game;

@@ -8,7 +8,7 @@ import nebulous.graphics.primatives.Mesh;
 import nebulous.graphics.primatives.Model;
 import nebulous.graphics.primatives.Texture;
 import nebulous.graphics.shaders.WhiteShader;
-import nebulous.logic.InputV2;
+import nebulous.logic.Input;
 import nebulous.logic.objects.GameObject;
 import nebulous.main.Game;
 import nebulous.utils.Console;
@@ -57,21 +57,21 @@ public class TransformDemo extends Game{
 	
 	@Override
 	public void update() {
-		if(InputV2.isKeyHeld(InputV2.KEY_ESCAPE)) stop();
-		if(InputV2.isKeyHeld(InputV2.KEY_SPACE))Console.println("SPACE!");
+		if(Input.isKeyHeld(Input.KEY_ESCAPE)) stop();
+		if(Input.isKeyHeld(Input.KEY_SPACE))Console.println("SPACE!");
 //		if(InputV2.isKeyDown(InputV2.KEY_W)) plane.move(new Vector2f(0,1), 0.02f);
 //		if(InputV2.isKeyDown(InputV2.KEY_S)) plane.move(new Vector2f(0,-1), 0.02f);
 //		if(InputV2.isKeyDown(InputV2.KEY_D)) plane.move(new Vector2f(1,0), 0.02f);
 //		if(InputV2.isKeyDown(InputV2.KEY_A)) plane.move(new Vector2f(-1,0), 0.02f);
-		if(InputV2.isKeyHeld(InputV2.KEY_E)) plane.rotate(-0.05f);
-		if(InputV2.isKeyHeld(InputV2.KEY_R)) plane.rotate(0.05f);
-		if(InputV2.isKeyHeld(InputV2.KEY_G)) plane.scale(-0.01f);
-		if(InputV2.isKeyHeld(InputV2.KEY_H)) plane.scale(0.01f);
+		if(Input.isKeyHeld(Input.KEY_E)) plane.rotate(-0.05f);
+		if(Input.isKeyHeld(Input.KEY_R)) plane.rotate(0.05f);
+		if(Input.isKeyHeld(Input.KEY_G)) plane.scale(-0.01f);
+		if(Input.isKeyHeld(Input.KEY_H)) plane.scale(0.01f);
 		//Console.println(plane.getScale());
-		if(InputV2.isKeyHeld(InputV2.KEY_A)) camera.setRotation(camera.getRotation().add(new Vector3f(-0.5f,0,0)));
-		if(InputV2.isKeyHeld(InputV2.KEY_D)) camera.setRotation(camera.getRotation().add(new Vector3f(0.5f,0,0)));
-		if(InputV2.isKeyHeld(InputV2.KEY_W)) camera.setRotation(camera.getRotation().add(new Vector3f(0,-0.5f,0)));
-		if(InputV2.isKeyHeld(InputV2.KEY_S)) camera.setRotation(camera.getRotation().add(new Vector3f(0,0.5f,0)));
+		if(Input.isKeyHeld(Input.KEY_A)) camera.setRotation(camera.getRotation().add(new Vector3f(-0.5f,0,0)));
+		if(Input.isKeyHeld(Input.KEY_D)) camera.setRotation(camera.getRotation().add(new Vector3f(0.5f,0,0)));
+		if(Input.isKeyHeld(Input.KEY_W)) camera.setRotation(camera.getRotation().add(new Vector3f(0,-0.5f,0)));
+		if(Input.isKeyHeld(Input.KEY_S)) camera.setRotation(camera.getRotation().add(new Vector3f(0,0.5f,0)));
 		
 		Console.println(camera.getRotation().toString());
 	}

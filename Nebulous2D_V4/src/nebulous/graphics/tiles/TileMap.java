@@ -1,6 +1,5 @@
 package nebulous.graphics.tiles;
 
-import nebulous.graphics.Camera;
 import nebulous.graphics.RenderEngine;
 import nebulous.graphics.enums.MapType;
 import nebulous.graphics.shaders.Shader;

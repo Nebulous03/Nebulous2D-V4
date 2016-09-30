@@ -12,7 +12,7 @@ import nebulous.graphics.shaders.InvertedShader;
 import nebulous.graphics.shaders.Shader;
 import nebulous.graphics.tiles.Tile;
 import nebulous.graphics.tiles.TileMap;
-import nebulous.logic.InputV2;
+import nebulous.logic.Input;
 import nebulous.logic.objects.Entity;
 import nebulous.main.Game;
 
@@ -73,20 +73,20 @@ public class TileMapDemo extends Game{
 //		if(InputV2.isKeyDown(InputV2.KEY_W)) camera.setPosition(camera.getPosition().add(new Vector3f(0,-0.1f,0)));
 //		if(InputV2.isKeyDown(InputV2.KEY_S)) camera.setPosition(camera.getPosition().add(new Vector3f(0,0.1f,0)));
 		
-		if(InputV2.isKeyHeld(InputV2.KEY_A)) player.move(new Vector2f(-1,0), 0.1f);
-		if(InputV2.isKeyHeld(InputV2.KEY_D)) player.move(new Vector2f(1,0), 0.1f);
-		if(InputV2.isKeyHeld(InputV2.KEY_W)) player.move(new Vector2f(0,1), 0.1f);
-		if(InputV2.isKeyHeld(InputV2.KEY_S)) player.move(new Vector2f(0,-1), 0.1f);
+		if(Input.isKeyHeld(Input.KEY_A)) player.move(new Vector2f(-1,0), 0.1f);
+		if(Input.isKeyHeld(Input.KEY_D)) player.move(new Vector2f(1,0), 0.1f);
+		if(Input.isKeyHeld(Input.KEY_W)) player.move(new Vector2f(0,1), 0.1f);
+		if(Input.isKeyHeld(Input.KEY_S)) player.move(new Vector2f(0,-1), 0.1f);
 		
-		if(InputV2.isKeyHeld(InputV2.KEY_G)) camera.setPosition(camera.getPosition().add(new Vector3f(0,0,0.1f)));
-		if(InputV2.isKeyHeld(InputV2.KEY_H)) camera.setPosition(camera.getPosition().add(new Vector3f(0,0,-0.1f)));
-		if(InputV2.isKeyHeld(InputV2.KEY_E)) camera.setRotation(camera.getRotation().add(new Vector3f(0,0.1f,0)));
-		if(InputV2.isKeyHeld(InputV2.KEY_R)) camera.setRotation(camera.getRotation().add(new Vector3f(0,-0.1f,0)));
+		if(Input.isKeyHeld(Input.KEY_G)) camera.setPosition(camera.getPosition().add(new Vector3f(0,0,0.1f)));
+		if(Input.isKeyHeld(Input.KEY_H)) camera.setPosition(camera.getPosition().add(new Vector3f(0,0,-0.1f)));
+//		if(InputV2.isKeyHeld(InputV2.KEY_E)) camera.setRotation(camera.getRotation().add(new Vector3f(0,0.1f,0)));
+//		if(InputV2.isKeyHeld(InputV2.KEY_R)) camera.setRotation(camera.getRotation().add(new Vector3f(0,-0.1f,0)));
 		
-		if(InputV2.isKeyHeld(InputV2.KEY_I)) cFov += 1;
-		if(InputV2.isKeyHeld(InputV2.KEY_O)) cFov -= 1;
+		if(Input.isKeyHeld(Input.KEY_I)) cFov += 1;
+		if(Input.isKeyHeld(Input.KEY_O)) cFov -= 1;
 		
-		if(InputV2.isKeyHeld(InputV2.KEY_PERIOD)){
+		if(Input.isKeyHeld(Input.KEY_PERIOD)){
 			invert = !invert;
 			if(invert){
 				map.setCustomShader(inverted);
@@ -101,7 +101,7 @@ public class TileMapDemo extends Game{
 			
 		camera.setFov(cFov);
 		
-		if(InputV2.isKeyHeld(InputV2.KEY_ESCAPE)) stop();
+		if(Input.isKeyHeld(Input.KEY_ESCAPE)) stop();
 		
 		player.update(); //TODO: add to logic engine
 	}

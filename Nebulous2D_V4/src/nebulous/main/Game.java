@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL11.*;
 import nebulous.graphics.RenderEngine;
 import nebulous.graphics.Window;
 import nebulous.logic.Input;
-import nebulous.logic.InputV2;
+import nebulous.logic.Input;
 import nebulous.utils.Console;
 import nebulous.utils.Time;
 
@@ -37,7 +37,7 @@ public abstract class Game{
 	public void start(){
 		window.init();
 		RenderEngine.init();
-		InputV2.init(window);
+		Input.init(window);
 		init();
 		tick();
 	}
@@ -68,7 +68,7 @@ public abstract class Game{
 				unprocessedTime -= updateSpeed;
 				
 				update();
-				InputV2.update();
+				Input.update();
 				RenderEngine.update();
 				
 				if(frameCounter >= 1.0){
