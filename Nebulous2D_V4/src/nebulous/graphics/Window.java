@@ -21,8 +21,11 @@ public class Window {
 	private boolean resized = false;
 	private boolean fullscreen = false;
 	private boolean vSync = false;
+	private static Window context;
 
-	public Window() {}
+	public Window() {
+		context = this;
+	}
 	
 	public Window createWindow(int width, int height, String title){
 		this.TITLE = title;
@@ -30,6 +33,10 @@ public class Window {
 		this.HEIGHT = height;
 		this.videoMode = VideoMode.NORMAL;
 		return this;
+	}
+	
+	public static Window getContext(){
+		return context;
 	}
 	
 	public void init(){

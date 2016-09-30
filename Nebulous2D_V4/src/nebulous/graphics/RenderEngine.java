@@ -7,58 +7,39 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
+import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
 import nebulous.graphics.enums.Projection;
 import nebulous.graphics.primatives.Mesh;
 import nebulous.graphics.primatives.Model;
+import nebulous.graphics.primatives.Texture;
 import nebulous.graphics.shaders.DefaultShader;
 import nebulous.graphics.shaders.Shader;
+import nebulous.graphics.tiles.TileMap;
+import nebulous.logic.objects.GameObject;
 import nebulous.main.Game;
-import nebulous.utils.math.Matrix4f;
 
 public class RenderEngine {
 	
-	private static final float DEFAULT_FOV = 80.0f;
-	private static final float DEFAULT_Z_NEAR = 0.01f;
-	private static final float DEFAULT_Z_FAR = 1000f;
 	private static Shader DEFAULT_SHADER;
+	private static Camera DEFAULT_CAMERA;
 	
-	private static float FOV;
-	private static float Z_NEAR;
-	private static float Z_FAR;
-	private static float ORTHO_LEFT;
-	private static float ORTHO_RIGHT;
-	private static float ORTHO_TOP;
-	private static float ORTHO_BOTTOM;
-	private static float aspectRatio;
-	private static Matrix4f projectionMatrix;
-	private static Projection projectionType;
-	
-	private static Window window;
-	private static Game game;
+	public static Window window;
+	public static Game game;
+	public static Camera camera;
 	
 	public RenderEngine(Game game){
 		RenderEngine.game = game;
 		RenderEngine.window = game.getWindow(); // TODO: Move Window in here
-		RenderEngine.projectionType = Projection.PERSPECTIVE;
-		RenderEngine.FOV = (float) Math.toRadians(DEFAULT_FOV);
-		RenderEngine.Z_NEAR = DEFAULT_Z_NEAR;
-		RenderEngine.Z_FAR = DEFAULT_Z_FAR;
-		RenderEngine.ORTHO_LEFT = 0;
-		RenderEngine.ORTHO_RIGHT = window.getWidth();
-		RenderEngine.ORTHO_TOP = 0;
-		RenderEngine.ORTHO_BOTTOM = window.getHeight();
 	}
 	
 	public static void init(){
 		DEFAULT_SHADER = new DefaultShader();
-		aspectRatio = (float) window.getWidth() / window.getHeight();
-		if(projectionType == Projection.PERSPECTIVE)projectionMatrix = 
-				new Matrix4f().initPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
-		if(projectionType == Projection.ORTHOGRAPHIC)projectionMatrix = 
-				new Matrix4f().initOrthographic(ORTHO_LEFT, ORTHO_RIGHT, ORTHO_BOTTOM, ORTHO_TOP, Z_NEAR, Z_FAR);
+		DEFAULT_CAMERA = new Camera(new Vector3f(0,0,0));
 	}
 	
 	public static void update(){
@@ -70,9 +51,11 @@ public class RenderEngine {
 		window.render();
 	}
 	
-	public static void renderMesh(Model model){
-		Mesh mesh = model.getMesh();
-		if(model.hasCustomShader()) model.getShader().bind();
+	public static void render(GameObject object){
+		Model model = object.getModel();
+		Mesh mesh = object.getModel().getMesh();
+		Shader shader = model.getShader();
+		if(model.hasCustomShader()) shader.bind();
 		else DEFAULT_SHADER.bind();
 		
 		model.getShader().updateUniforms();
@@ -80,6 +63,19 @@ public class RenderEngine {
 	    glEnableVertexAttribArray(0);
 	    glEnableVertexAttribArray(1);
 
+	    /* Transform Matrix */
+	    Matrix4f transform = Transform.getTransformationMatrix(
+	    		new Vector3f(object.getPosition().x, object.getPosition().y, object.getDepth()), object.getRotaion(), object.getScale());
+	    shader.setUniformMat4f(shader.getUniform("transform"), transform);
+	    
+	    /* Perspective Matrix */
+	    Matrix4f perspective = Transform.getPerspectiveMatrix(camera.getFov(), camera.getAspectRatio(), camera.getZNear(), camera.getZFar());
+	    shader.setUniformMat4f(shader.getUniform("perspective"), perspective);
+	    
+	    /* View Matrix */
+	    Matrix4f view = Transform.getViewMatrix(camera);
+	    shader.setUniformMat4f(shader.getUniform("view"), view);
+	    
 	    GL13.glActiveTexture(GL13.GL_TEXTURE0);
 	    GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().textureID);
 	    glDrawElements(GL_TRIANGLES, mesh.vCount, GL_UNSIGNED_INT, 0);
@@ -88,56 +84,56 @@ public class RenderEngine {
 	    glDisableVertexAttribArray(1);
 	    glBindVertexArray(0);
 		
-		if(model.hasCustomShader()) model.getShader().unbind();
+		if(model.hasCustomShader()) shader.unbind();
+		else DEFAULT_SHADER.unbind();
+	}
+	
+	public static void renderTileMap(TileMap map){
+		Shader shader = map.getShader();
+		if(map.hasCustomShader()) shader.bind();
+		else DEFAULT_SHADER.bind();
+		
+		for(int y = 0; y < map.getHeight(); y++){
+			for(int x = 0; x < map.getWidth(); x++){
+				if(!map.getTile(x, y).isBlank()){
+					
+					Mesh mesh = map.getTile(x, y).getModel().getMesh();
+					Texture texture = map.getTile(x, y).getModel().getTexture();
+					
+					map.getShader().updateUniforms();
+					glBindVertexArray(mesh.vao);
+				    glEnableVertexAttribArray(0);
+				    glEnableVertexAttribArray(1);
+	
+				    /* Transform Matrix*/
+				    Matrix4f transform = Transform.getTransformationMatrix(new Vector3f(x * map.getTileSize() * 2, y * map.getTileSize() * 2, map.getDepth()), 0, new Vector3f(map.getTileSize()));
+				    shader.setUniformMat4f(shader.getUniform("transform"), transform);
+				    
+				    /* Perspective Matrix*/
+				    Matrix4f perspective = Transform.getPerspectiveMatrix(camera.getFov(), camera.getAspectRatio(), camera.getZNear(), camera.getZFar());
+				    shader.setUniformMat4f(shader.getUniform("perspective"), perspective);
+				    
+				    /* View Matrix*/
+				    Matrix4f view = Transform.getViewMatrix(camera);
+				    shader.setUniformMat4f(shader.getUniform("view"), view);
+				    
+				    GL13.glActiveTexture(GL13.GL_TEXTURE0);
+				    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.textureID);
+				    glDrawElements(GL_TRIANGLES, mesh.vCount, GL_UNSIGNED_INT, 0);
+	
+				    glDisableVertexAttribArray(0);
+				    glDisableVertexAttribArray(1);
+				    glBindVertexArray(0);
+				}
+			}
+		}
+		
+		if(map.hasCustomShader()) shader.unbind();
 		else DEFAULT_SHADER.unbind();
 	}
 	
 	public static Shader getDefaultShader(){
 		return DEFAULT_SHADER;
-	}
-
-	public static float getFOV() {
-		return FOV;
-	}
-
-	public static void setFOV(float fOV) {
-		FOV = (float)Math.toRadians(fOV);
-	}
-
-	public static float getZ_NEAR() {
-		return Z_NEAR;
-	}
-
-	public static void setZ_NEAR(float z_NEAR) {
-		Z_NEAR = z_NEAR;
-	}
-
-	public static float getZ_FAR() {
-		return Z_FAR;
-	}
-
-	public static void setZ_FAR(float z_FAR) {
-		Z_FAR = z_FAR;
-	}
-
-	public static float getDefaultFov() {
-		return DEFAULT_FOV;
-	}
-
-	public static float getDefaultZNear() {
-		return DEFAULT_Z_NEAR;
-	}
-
-	public static float getDefaultZFar() {
-		return DEFAULT_Z_FAR;
-	}
-
-	public static float getAspectRatio() {
-		return aspectRatio;
-	}
-
-	public static Matrix4f getProjectionMatrix() {
-		return projectionMatrix;
 	}
 
 	public static Window getWindow() {
@@ -148,12 +144,20 @@ public class RenderEngine {
 		return game;
 	}
 
-	public static Projection getProjectionType() {
-		return projectionType;
+	public static Camera getCamera() {
+		return camera;
 	}
 
-	public static void setProjectionType(Projection projectionType) {
-		RenderEngine.projectionType = projectionType;
+	public static void setCamera(Camera camera) {
+		RenderEngine.camera = camera;
+	}
+
+	public static Shader getDEFAULT_SHADER() {
+		return DEFAULT_SHADER;
+	}
+
+	public static Camera getDEFAULT_CAMERA() {
+		return DEFAULT_CAMERA;
 	}
 
 }

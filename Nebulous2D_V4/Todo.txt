@@ -1,0 +1,20 @@
+Nebulous "Lore" Engine V4
+
+Known Issues:
+	- Camera Rotation should not be relative to 0, 0
+	- PLEASE Optimize render code / uniforms
+	- Fix alternate shaders ( white.vs )
+	
+Things that need changing:
+	- Move custom shaders to GameObject
+	
+Future Additions:
+	- Allow greater multi-shader support
+	- Lighting {?}
+	- Entities
+	- Sprites
+	- Text
+	- Collision (AA/BB)
+	
+Finished Features:
+	- Layered TileMaps

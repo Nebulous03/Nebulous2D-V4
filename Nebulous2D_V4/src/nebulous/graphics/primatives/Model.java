@@ -13,17 +13,18 @@ public class Model {
 		this.mesh = mesh;
 		this.texture = texture;
 	}
+	
+	public void setSize(float size){
+		mesh.setSize(size);
+	}
 
 	public Mesh getMesh() {
 		return mesh;
 	}
 
 	public Texture getTexture() {
-		return texture;
-	}
-	
-	public void render(){
-		RenderEngine.renderMesh(this);
+		if(texture == null) return Texture.UNKNOWN;
+		else return texture;
 	}
 	
 	public void setCustomShader(Shader shader){
@@ -41,6 +42,14 @@ public class Model {
 	public Shader getShader(){
 		if(customShader != null)return customShader;
 		else return RenderEngine.getDefaultShader();
+	}
+
+	public Shader getCustomShader() {
+		return customShader;
+	}
+
+	public void setTexture(Texture texture) {
+		this.texture = texture;
 	}
 
 }

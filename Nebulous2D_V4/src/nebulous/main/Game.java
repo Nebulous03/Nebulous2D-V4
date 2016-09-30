@@ -5,6 +5,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 import nebulous.graphics.RenderEngine;
 import nebulous.graphics.Window;
+import nebulous.logic.Input;
+import nebulous.logic.InputV2;
 import nebulous.utils.Console;
 import nebulous.utils.Time;
 
@@ -13,9 +15,15 @@ public abstract class Game{
 	private String title = "Nebulous2D Game Engine";
 	private int width = 1366;
 	private int height = 768;
-	private Window window = null;
+	public Window window = null;
 	
 	private double updateSpeed = 1.0 / 60;
+	
+	public Game(){
+		this.window = createWindow();
+		new RenderEngine(this);
+		new Input();
+	}
 	
 	public Game(int width, int height, String title) {
 		this.title = title;
@@ -23,11 +31,13 @@ public abstract class Game{
 		this.height = height;
 		this.window = createWindow();
 		new RenderEngine(this);
+		new Input();
 	}
 	
 	public void start(){
 		window.init();
 		RenderEngine.init();
+		InputV2.init(window);
 		init();
 		tick();
 	}
@@ -58,6 +68,7 @@ public abstract class Game{
 				unprocessedTime -= updateSpeed;
 				
 				update();
+				InputV2.update();
 				RenderEngine.update();
 				
 				if(frameCounter >= 1.0){

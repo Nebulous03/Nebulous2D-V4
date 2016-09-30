@@ -12,6 +12,9 @@ import org.lwjgl.BufferUtils;
 import nebulous.utils.Console;
 
 public class Texture {
+	
+	public static Texture UNKNOWN = new Texture("/textures/unknown.png");
+	public static Texture UNKNOWN2 = new Texture("/textures/unknown2.png");
 
 	public int textureID;
 	
@@ -27,8 +30,8 @@ public class Texture {
 				image = ImageIO.read(Texture.class.getResource(filename));
 			} catch(Exception e){
 				Console.printErr("UNABLE TO READ FILE: '" + filename + "'");
-				Console.println("Texture - Error reading buffered image, replaced with 'nullTexture.png'.");
-				image = ImageIO.read(Texture.class.getResource("/textures/nullTexture.png"));
+				Console.println("Texture - Error reading buffered image, replaced with 'unknown.png'.");
+				image = ImageIO.read(Texture.class.getResource("/textures/unknown.png"));
 				successful = false;
 			}
 

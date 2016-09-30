@@ -9,12 +9,11 @@ import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL20;
 
 import nebulous.utils.Console;
-import nebulous.utils.math.Matrix4f;
-import nebulous.utils.math.Vector3f;
 
 public abstract class Shader{
 	
@@ -70,7 +69,7 @@ public abstract class Shader{
 	}
 	
 	public void setUniform3f(int location, Vector3f data){
-		glUniform3f(location, data.getX(), data.getY(), data.getZ());
+		glUniform3f(location, data.x, data.y, data.x);
 	}
 	
 	public void setUniform1b(int location, boolean value){
@@ -79,7 +78,7 @@ public abstract class Shader{
 	
 	public void setUniformMat4f(int location, Matrix4f matrix4f){
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
-		buffer = matrix4f.toFloatBuffer();
+		buffer = matrix4f.get(buffer);
 		glUniformMatrix4fv(location, true, buffer);
 	}
 	
