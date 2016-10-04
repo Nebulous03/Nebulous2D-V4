@@ -3,15 +3,24 @@ package nebulous.main;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import nebulous.graphics.RenderEngine;
 import nebulous.graphics.Window;
 import nebulous.logic.Input;
+import nebulous.logic.level.Level;
 import nebulous.logic.Input;
 import nebulous.utils.Console;
 import nebulous.utils.Time;
 
 public abstract class Game{
 	
+	private Map<String, Level> levels;
+	private ArrayList<String> tags;
+	private Level activeLevel = null;
+	private int levelSize = 0;
 	private String title = "Nebulous2D Game Engine";
 	private int width = 1366;
 	private int height = 768;
@@ -21,6 +30,8 @@ public abstract class Game{
 	
 	public Game(){
 		this.window = createWindow();
+		this.levels = new HashMap<String, Level>();
+		this.tags = new ArrayList<String>();
 		new RenderEngine(this);
 		new Input();
 	}
@@ -30,6 +41,8 @@ public abstract class Game{
 		this.width = width;
 		this.height = height;
 		this.window = createWindow();
+		this.levels = new HashMap<String, Level>();
+		this.tags = new ArrayList<String>();
 		new RenderEngine(this);
 		new Input();
 	}
@@ -69,7 +82,10 @@ public abstract class Game{
 				
 				update();
 				Input.update();
-				RenderEngine.update();
+				if(activeLevel != null){
+					activeLevel.update(0); // TODO: DELTA!!!
+					activeLevel.updateObjects();
+				} RenderEngine.update();
 				
 				if(frameCounter >= 1.0){
 					Console.println("FPS: " + frames);
@@ -78,7 +94,9 @@ public abstract class Game{
 				}
 			}
 			
-			RenderEngine.render();
+			//render();
+			if(activeLevel != null)activeLevel.render();
+			window.render();
 			frames++;
 			
 		}
@@ -87,8 +105,6 @@ public abstract class Game{
 	public abstract void init();
 	
 	public abstract void update();
-	
-	public abstract void render();
 	
 	private Window createWindow(){
 		Window window = new Window().createWindow(width, height, title);
@@ -114,6 +130,25 @@ public abstract class Game{
 
 	public double getFramecap() {
 		return updateSpeed;
+	}
+	
+	public void addLevel(String tag, Level level){
+		levels.put(tag, level);
+		tags.add(tag);
+		level.init();
+		levelSize++;
+	}
+
+	public Level getActiveLevel() {
+		return activeLevel;
+	}
+	
+	public void setActiveLevel(String tag) {
+		this.activeLevel = levels.get(tag);
+	}
+
+	public void setActiveLevel(Level level) {
+		this.activeLevel = level;
 	}
 
 }

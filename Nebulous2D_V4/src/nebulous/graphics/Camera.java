@@ -70,8 +70,8 @@ public class Camera implements ILogicComponent{
 		return fov;
 	}
 
-	public void setFov(float fov) {
-		this.fov = (float)Math.toRadians(fov);
+	public void setFovInDegrees(float fov) {
+		this.fov = fov;
 	}
 
 	public Vector3f getPos() {

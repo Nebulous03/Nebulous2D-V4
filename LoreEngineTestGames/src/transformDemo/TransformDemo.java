@@ -76,10 +76,4 @@ public class TransformDemo extends Game{
 		Console.println(camera.getRotation().toString());
 	}
 
-	@Override
-	public void render() {
-	    plane.render();
-	    //plane2.render();
-	}
-
 }

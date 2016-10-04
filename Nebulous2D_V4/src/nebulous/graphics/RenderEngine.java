@@ -1,7 +1,11 @@
 package nebulous.graphics;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
@@ -17,7 +21,6 @@ import nebulous.graphics.primatives.Model;
 import nebulous.graphics.primatives.Texture;
 import nebulous.graphics.shaders.DefaultShader;
 import nebulous.graphics.shaders.Shader;
-import nebulous.graphics.tiles.Tile;
 import nebulous.graphics.tiles.TileMap;
 import nebulous.logic.objects.GameObject;
 import nebulous.main.Game;
@@ -45,11 +48,6 @@ public class RenderEngine {
 		window.update();
 	}
 	
-	public static void render(){
-		game.render();
-		window.render();
-	}
-	
 	public static void render(GameObject object){
 		Model model = object.getModel();
 		Mesh mesh = object.getModel().getMesh();
@@ -75,9 +73,15 @@ public class RenderEngine {
 	    Matrix4f view = Transform.getViewMatrix(camera);
 	    shader.setUniformMat4f(shader.getUniform("view"), view);
 	    
+	    GL11.glEnable(GL_BLEND);
+	    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	    
 	    GL13.glActiveTexture(GL13.GL_TEXTURE0);
 	    GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().textureID);
+	    
 	    glDrawElements(GL_TRIANGLES, mesh.vCount, GL_UNSIGNED_INT, 0);
+	    
+	    GL11.glDisable(GL_BLEND);
 
 	    glDisableVertexAttribArray(0);
 	    glDisableVertexAttribArray(1);
@@ -116,9 +120,15 @@ public class RenderEngine {
 				    Matrix4f view = Transform.getViewMatrix(camera);
 				    shader.setUniformMat4f(shader.getUniform("view"), view);
 				    
+				    GL11.glEnable(GL_BLEND);
+				    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				    
 				    GL13.glActiveTexture(GL13.GL_TEXTURE0);
 				    GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.textureID);
+					
 				    glDrawElements(GL_TRIANGLES, mesh.vCount, GL_UNSIGNED_INT, 0);
+				    
+				    GL11.glDisable(GL_BLEND);
 	
 				    glDisableVertexAttribArray(0);
 				    glDisableVertexAttribArray(1);
