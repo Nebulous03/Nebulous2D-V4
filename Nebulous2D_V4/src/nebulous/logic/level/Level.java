@@ -13,21 +13,33 @@ public abstract class Level {
 	
 	private Map<Integer, TileMap> mapLayers;
 	private Map<String, GameObject> objects;
-	private ArrayList<String> tags;
+	private Map<String, Entity> entities;
+	private ArrayList<String> otags;
+	private ArrayList<String> etags;
 	private int mapsSize = 0;
 	private int objectsSize = 0;
+	private int entitiesSize = 0;
 
 	public Level() {
 		mapLayers = new HashMap<Integer, TileMap>();
 		objects = new HashMap<String, GameObject>();
-		tags = new ArrayList<String>();
+		entities = new HashMap<String, Entity>();
+		otags = new ArrayList<String>();
+		etags = new ArrayList<String>();
 	}
 	
 	public void add(String tag, GameObject object){
 		objects.put(tag, object);
-		tags.add(tag);
+		otags.add(tag);
 		object.setDepth(mapsSize * 0.01f);
 		objectsSize++;
+	}
+	
+	public void add(String tag, Entity entity){
+		entities.put(tag, entity);
+		etags.add(tag);
+		entity.setDepth(mapsSize * 0.01f);
+		entitiesSize++;
 	}
 	
 	public void addMap(TileMap map){
@@ -44,15 +56,17 @@ public abstract class Level {
 		return objects.get(tag);
 	}
 	
+	public Entity getEntity(String tag){
+		return entities.get(tag);
+	}
+	
 	public abstract void init();
 	public abstract void update(double delta);
 	
 	public void updateObjects(){
-		for(int i = 0; i < objectsSize; i++)
-			if(objects.get(tags.get(i)) instanceof Entity){
-				Entity e = (Entity)objects.get(tags.get(i));
-				e.update();
-			}
+		for(int i = 0; i < entitiesSize; i++){
+			entities.get(etags.get(i)).update();
+		}
 	}
 	
 	public void render(){
@@ -60,8 +74,43 @@ public abstract class Level {
 			RenderEngine.renderTileMap(mapLayers.get(i));
 		}
 		for(int i = 0; i < objectsSize; i++){
-			objects.get(tags.get(i)).render();
+			objects.get(otags.get(i)).render();
 		}
+		for(int i = 0; i < entitiesSize; i++){
+			entities.get(etags.get(i)).render();
+		}
+	}
+
+	public Map<Integer, TileMap> getMapLayers() {
+		return mapLayers;
+	}
+
+	public Map<String, GameObject> getObjects() {
+		return objects;
+	}
+
+	public Map<String, Entity> getEntities() {
+		return entities;
+	}
+
+	public ArrayList<String> getOtags() {
+		return otags;
+	}
+
+	public ArrayList<String> getEtags() {
+		return etags;
+	}
+
+	public int getMapsSize() {
+		return mapsSize;
+	}
+
+	public int getObjectsSize() {
+		return objectsSize;
+	}
+
+	public int getEntitiesSize() {
+		return entitiesSize;
 	}
 
 }

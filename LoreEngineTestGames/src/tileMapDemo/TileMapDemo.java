@@ -50,11 +50,6 @@ public class TileMapDemo extends Game{
 //		if(InputV2.isKeyDown(InputV2.KEY_W)) camera.setPosition(camera.getPosition().add(new Vector3f(0,-0.1f,0)));
 //		if(InputV2.isKeyDown(InputV2.KEY_S)) camera.setPosition(camera.getPosition().add(new Vector3f(0,0.1f,0)));
 		
-		if(Input.isKeyHeld(Input.KEY_A)) level.getObject("player").move(new Vector2f(-1,0), 0.1f);
-		if(Input.isKeyHeld(Input.KEY_D)) level.getObject("player").move(new Vector2f(1,0), 0.1f);
-		if(Input.isKeyHeld(Input.KEY_W)) level.getObject("player").move(new Vector2f(0,1), 0.1f);
-		if(Input.isKeyHeld(Input.KEY_S)) level.getObject("player").move(new Vector2f(0,-1), 0.1f);
-		
 		if(Input.isKeyHeld(Input.KEY_G)) camera.setPosition(camera.getPosition().add(new Vector3f(0,0,0.1f)));
 		if(Input.isKeyHeld(Input.KEY_H)) camera.setPosition(camera.getPosition().add(new Vector3f(0,0,-0.1f)));
 		if(Input.isKeyHeld(Input.KEY_E)) camera.setRotation(camera.getRotation().add(new Vector3f(0,0.1f,0)));
@@ -62,19 +57,6 @@ public class TileMapDemo extends Game{
 		
 		if(Input.isKeyHeld(Input.KEY_I)) cFov += 0.05f;
 		if(Input.isKeyHeld(Input.KEY_O)) cFov -= 0.05f;
-		
-//		if(Input.isKeyHeld(Input.KEY_PERIOD)){
-//			invert = !invert;
-//			if(invert){
-//				map.setCustomShader(inverted);
-//				map2.setCustomShader(inverted);
-//			} else {
-//				map.removeCusomShader();
-//				map2.removeCusomShader();
-//			}
-//		}
-			
-//		camera.setFovInDegrees(cFov);
 		
 		if(Input.isKeyHeld(Input.KEY_ESCAPE)) stop();
 	}

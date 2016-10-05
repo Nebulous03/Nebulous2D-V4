@@ -62,7 +62,7 @@ public class RenderEngine {
 
 	    /* Transform Matrix */
 	    Matrix4f transform = Transform.getTransformationMatrix(
-	    		new Vector3f(object.getPosition().x, object.getPosition().y, object.getDepth()), object.getRotaion(), object.getScale());
+	    		new Vector3f(object.getPosition().x * 2, object.getPosition().y * 2, object.getDepth()), object.getRotaion(), object.getScale());
 	    shader.setUniformMat4f(shader.getUniform("transform"), transform);
 	    
 	    /* Perspective Matrix */

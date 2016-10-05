@@ -3,21 +3,32 @@ package nebulous.logic.objects;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import nebulous.graphics.Camera;
 import nebulous.graphics.RenderEngine;
 import nebulous.graphics.primatives.Model;
 
 public class GameObject {
 	
-	private Model model;
-	private Vector2f pos;
-	private Vector3f scale;
-	private float depth;
-	private float rotaion;
+	protected Model model;
+	protected float width;
+	protected float height;
+	protected Vector2f pos;
+	protected Vector3f scale;
+	protected float depth;
+	protected float rotaion;
 	
 	public GameObject(Model model, Vector2f pos){
 		this.model = model;
 		this.rotaion = 0.0f;
+		this.width = this.height = 1;
+		this.scale = new Vector3f(1,1,1);
+		this.pos = pos;
+	}
+	
+	public GameObject(Model model, Vector2f pos, float width, float height){
+		this.model = model;
+		this.rotaion = 0.0f;
+		this.width = width;
+		this.height = height;
 		this.scale = new Vector3f(1,1,1);
 		this.pos = pos;
 	}
@@ -80,6 +91,22 @@ public class GameObject {
 
 	public void setDepth(float depth) {
 		this.depth = depth;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+	
+	public void setWidth(float width) {
+		this.width = width;
 	}
 
 }

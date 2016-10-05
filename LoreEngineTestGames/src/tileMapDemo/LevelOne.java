@@ -6,14 +6,11 @@ import nebulous.graphics.shaders.Shader;
 import nebulous.graphics.tiles.Tile;
 import nebulous.graphics.tiles.TileMap;
 import nebulous.logic.level.Level;
+import nebulous.logic.objects.Entity;
 
 public class LevelOne extends Level{
 	
 	public Shader inverted;
-
-	public LevelOne() {
-		
-	}
 
 	@Override
 	public void init() {
@@ -23,8 +20,8 @@ public class LevelOne extends Level{
 		Tile grass = new Tile(new Texture("/textures/mc/grass_side.png"));
 		Tile torch = new Tile(new Texture("/textures/mc/torch_on.png"));
 		
-		TileMap map = new TileMap(32, 16, 1, stone);
-		TileMap map2 = new TileMap(32, 16, 1);
+		TileMap map = new TileMap(32, 16, 1f, stone);
+		TileMap map2 = new TileMap(32, 16, 1f);
 		
 		map2.setTile(grass, 0, 0);
 		map2.setTile(grass, 3, 3);
@@ -35,16 +32,25 @@ public class LevelOne extends Level{
 		
 		map2.setTile(torch, 3, 4);
 		
-		Player player = new Player(new Texture("/textures/mc/torch_on.png"));
+		Player player = new Player(Texture.UNKNOWN, this);
+		Entity test = new TestEntity(new Texture("/textures/mc/grass_side.png"));
+		test.setPosition(2, 2);
+		Entity test2 = new TestEntity(new Texture("/textures/mc/grass_side.png"));
+		test2.setPosition(1, 3);
+		player.setPosition(0.5f, 0.5f);
 		
 		addMap(map);
 		addMap(map2);
+		add("test", test);
+		add("test2", test2);
 		add("player", player);
 	}
 
 	@Override
 	public void update(double delta) {
-		
+//		if(getEntity("player").intersects(getEntity("test"))){
+//			System.out.println("hai");
+//		}
 	}
 
 }
