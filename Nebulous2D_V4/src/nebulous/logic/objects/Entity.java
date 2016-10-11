@@ -6,7 +6,6 @@ import nebulous.graphics.primatives.Mesh;
 import nebulous.graphics.primatives.Model;
 import nebulous.graphics.primatives.Texture;
 import nebulous.graphics.tiles.TileMap;
-import nebulous.logic.collisions.CollisionAABB;
 import nebulous.logic.collisions.CollisionAABBV2;
 import nebulous.logic.collisions.CollisionEvent;
 import nebulous.logic.level.Level;

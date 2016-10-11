@@ -11,7 +11,7 @@ public class Test extends Game{
 
 	@Override
 	public void update() {
-		
+		System.out.println("hai");
 	}
 
 }
