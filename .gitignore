@@ -1,52 +1,49 @@
-#My ignores:
+.metadata
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
 
-.metadata/
-.recomenders/
+# Eclipse Core
+.project
 
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# External tool builders
+.externalToolBuilders/
 
-# Folder config file
-Desktop.ini
+# Locally stored "Eclipse launch configurations"
+*.launch
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
+# CDT-specific (C/C++ Development Tooling)
+.cproject
 
-# Windows shortcuts
-*.lnk
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
 
-# =========================
-# Operating System Files
-# =========================
+# Java annotation processor (APT)
+.factorypath
 
-# OSX
-# =========================
+# PDT-specific (PHP Development Tools)
+.buildpath
 
-.DS_Store
-.AppleDouble
-.LSOverride
+# sbteclipse plugin
+.target
 
-# Thumbnails
-._*
+# Tern plugin
+.tern-project
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
+# TeXlipse plugin
+.texlipse
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
