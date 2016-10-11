@@ -8,6 +8,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.maybe
 
 # Eclipse Core
 .project
