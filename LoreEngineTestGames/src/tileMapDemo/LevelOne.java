@@ -1,5 +1,6 @@
 package tileMapDemo;
 
+import nebulous.graphics.enums.MapType;
 import nebulous.graphics.primatives.Texture;
 import nebulous.graphics.shaders.InvertedShader;
 import nebulous.graphics.shaders.Shader;
@@ -21,7 +22,7 @@ public class LevelOne extends Level{
 		Tile torch = new Tile(new Texture("/textures/mc/torch_on.png"));
 		
 		TileMap map = new TileMap(32, 16, 1f, stone);
-		TileMap map2 = new TileMap(32, 16, 1f);
+		TileMap map2 = new TileMap(32, 16, 1f, MapType.COLLISION);
 		
 		map2.setTile(grass, 0, 0);
 		map2.setTile(grass, 3, 3);
@@ -37,7 +38,8 @@ public class LevelOne extends Level{
 		test.setPosition(2, 2);
 		Entity test2 = new TestEntity(new Texture("/textures/mc/grass_side.png"));
 		test2.setPosition(1, 3);
-		player.setPosition(0.5f, 0.5f);
+		
+		player.setPosition(4f, 4f);
 		
 		addMap(map);
 		addMap(map2);

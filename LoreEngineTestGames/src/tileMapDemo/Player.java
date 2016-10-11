@@ -35,25 +35,10 @@ public class Player extends Entity{
 		
 		camera = RenderEngine.getCamera();
 		camera.setPosition(new Vector3f(-this.getPosition().x * 2, -this.getPosition().y * 2, camera.getPosition().z)); //TODO: I don't like the x2
-		updateCollision();
 	}
 	
 	public void attemptMove(){
 		Vector2f wPos = pos;
-		
-		CollisionAABB aabb = getAABB();
-		aabb.setPosition(wPos.add(new Vector2f(xVel, yVel)));
-		
-		for(int i = 0; i < level.getEntitiesSize(); i++){
-			CollisionAABB col = level.getEntity(level.getEtags().get(i)).getAABB();
-			if(col != aabb){
-				if(aabb.intersects(col)){
-					wPos.add(new Vector2f(-xVel, -yVel));
-					xVel = 0;
-					yVel = 0;
-				}
-			}
-		}
 		
 		if(wPos.add(new Vector2f(xVel, yVel)).x < 0){
 			wPos = new Vector2f(0, wPos.y);

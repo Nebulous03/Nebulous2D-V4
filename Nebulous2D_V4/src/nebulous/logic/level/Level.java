@@ -66,6 +66,7 @@ public abstract class Level {
 	public void updateObjects(){
 		for(int i = 0; i < entitiesSize; i++){
 			entities.get(etags.get(i)).update();
+			entities.get(etags.get(i)).updateCollision(this);
 		}
 	}
 	

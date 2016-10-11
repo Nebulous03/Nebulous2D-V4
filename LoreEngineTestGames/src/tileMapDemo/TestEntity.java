@@ -11,7 +11,7 @@ public class TestEntity extends Entity{
 
 	@Override
 	public void update() {
-		updateCollision();
+		
 	}
 
 

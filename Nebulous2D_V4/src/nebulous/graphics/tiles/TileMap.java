@@ -1,8 +1,11 @@
 package nebulous.graphics.tiles;
 
+import org.joml.Vector2f;
+
 import nebulous.graphics.RenderEngine;
 import nebulous.graphics.enums.MapType;
 import nebulous.graphics.shaders.Shader;
+import nebulous.logic.collisions.CollisionAABBV2;
 
 public class TileMap {
 	
@@ -11,6 +14,7 @@ public class TileMap {
 	private float depth;
 	private float tileSize;
 	private Tile[] tiles;
+	private CollisionAABBV2[] colliders;
 	
 	private Shader customShader = null;
 
@@ -21,16 +25,18 @@ public class TileMap {
 		this.depth = 0;
 		this.tileSize = tileSize;
 		this.tiles = new Tile[xSize * ySize];
+		this.colliders = new CollisionAABBV2[xSize * ySize];
 		populateTiles(defaultTile);
 	}
 	
 	public TileMap(int xSize, int ySize, float tileSize, MapType mapType){
-		this.mapType = MapType.NORMAL;
+		this.mapType = mapType;
 		this.width = xSize;
 		this.height = ySize;
 		this.depth = 0;
 		this.tileSize = tileSize;
 		this.tiles = new Tile[xSize * ySize];
+		this.colliders = new CollisionAABBV2[xSize * ySize];
 		populateTiles();
 	}
 	
@@ -41,6 +47,7 @@ public class TileMap {
 		this.depth = 0;
 		this.tileSize = tileSize;
 		this.tiles = new Tile[xSize * ySize];
+		this.colliders = new CollisionAABBV2[xSize * ySize];
 		populateTiles(defaultTile);
 	}
 	
@@ -51,6 +58,7 @@ public class TileMap {
 		this.depth = 0;
 		this.tileSize = tileSize;
 		this.tiles = new Tile[xSize * ySize];
+		this.colliders = new CollisionAABBV2[xSize * ySize];
 		populateTiles();
 	}
 	
@@ -58,6 +66,8 @@ public class TileMap {
 		Tile blank = new Tile();
 		for(int i = 0; i < tiles.length; i++)
 			tiles[i] = blank;
+		for(int i = 0; i < colliders.length; i++)
+			colliders[i] = null;
 	}
 	
 	public void populateTiles(Tile tile){
@@ -69,8 +79,15 @@ public class TileMap {
 		return tiles[x + y * width];
 	}
 	
+	public CollisionAABBV2 getTileAABB(int x, int y){
+		return colliders[x + y * width];
+	}
+	
 	public void setTile(Tile tile, int x, int y){
 		tiles[x + y * width] = tile;
+		if(mapType == MapType.COLLISION)
+			System.out.println(x + ", " + y);
+			colliders[x + y * width] = new CollisionAABBV2(new Vector2f(x, y), new Vector2f(1,1));
 	}
 	
 	public void render(){
