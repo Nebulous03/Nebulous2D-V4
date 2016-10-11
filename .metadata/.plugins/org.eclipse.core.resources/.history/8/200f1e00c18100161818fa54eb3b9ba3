@@ -1,9 +1,0 @@
-package nebulous.graphics;
-
-public class Mesh {
-
-	public Mesh(float[] verticices) {
-		
-	}
-
-}

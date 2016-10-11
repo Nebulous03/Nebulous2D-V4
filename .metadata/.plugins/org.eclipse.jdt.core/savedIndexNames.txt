@@ -1,6 +1,0 @@
-INDEX VERSION 1.129+B:\Java Development\Projects\Nebulous2D\Nebulous2D-V4\.metadata\.plugins\org.eclipse.jdt.core
-3029277882.index
-156441633.index
-2415187592.index
-3689715792.index
-3596601203.index
