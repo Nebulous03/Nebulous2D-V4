@@ -41,7 +41,7 @@ public class RenderEngine {
 	
 	public static void init(){
 		DEFAULT_SHADER = new DefaultShader();
-		DEFAULT_CAMERA = new Camera(new Vector3f(0,0,0));
+		DEFAULT_CAMERA = new Camera(new Vector3f(0,0,-1));
 	}
 	
 	public static void update(){
@@ -66,11 +66,11 @@ public class RenderEngine {
 	    shader.setUniformMat4f(shader.getUniform("transform"), transform);
 	    
 	    /* Perspective Matrix */
-	    Matrix4f perspective = Transform.getPerspectiveMatrix(camera.getFov(), camera.getAspectRatio(), camera.getZNear(), camera.getZFar());
+	    Matrix4f perspective = Transform.getPerspectiveMatrix(getCamera().getFov(), getCamera().getAspectRatio(), getCamera().getZNear(), getCamera().getZFar());
 	    shader.setUniformMat4f(shader.getUniform("perspective"), perspective);
 	    
 	    /* View Matrix */
-	    Matrix4f view = Transform.getViewMatrix(camera);
+	    Matrix4f view = Transform.getViewMatrix(getCamera());
 	    shader.setUniformMat4f(shader.getUniform("view"), view);
 	    
 	    GL11.glEnable(GL_BLEND);
@@ -113,11 +113,11 @@ public class RenderEngine {
 				    shader.setUniformMat4f(shader.getUniform("transform"), transform);
 				    
 				    /* Perspective Matrix*/
-				    Matrix4f perspective = Transform.getPerspectiveMatrix(camera.getFov(), camera.getAspectRatio(), camera.getZNear(), camera.getZFar());
+				    Matrix4f perspective = Transform.getPerspectiveMatrix(getCamera().getFov(), getCamera().getAspectRatio(), getCamera().getZNear(), getCamera().getZFar());
 				    shader.setUniformMat4f(shader.getUniform("perspective"), perspective);
 				    
 				    /* View Matrix*/
-				    Matrix4f view = Transform.getViewMatrix(camera);
+				    Matrix4f view = Transform.getViewMatrix(getCamera());
 				    shader.setUniformMat4f(shader.getUniform("view"), view);
 				    
 				    GL11.glEnable(GL_BLEND);
@@ -154,18 +154,15 @@ public class RenderEngine {
 	}
 
 	public static Camera getCamera() {
-		return camera;
+		if(camera != null)return camera;
+		else return DEFAULT_CAMERA;
 	}
 
 	public static void setCamera(Camera camera) {
 		RenderEngine.camera = camera;
 	}
 
-	public static Shader getDEFAULT_SHADER() {
-		return DEFAULT_SHADER;
-	}
-
-	public static Camera getDEFAULT_CAMERA() {
+	public static Camera getDefaultCamera() {
 		return DEFAULT_CAMERA;
 	}
 

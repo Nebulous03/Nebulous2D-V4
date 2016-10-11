@@ -11,7 +11,6 @@ import nebulous.graphics.RenderEngine;
 import nebulous.graphics.Window;
 import nebulous.logic.Input;
 import nebulous.logic.level.Level;
-import nebulous.logic.Input;
 import nebulous.utils.Console;
 import nebulous.utils.Time;
 
@@ -22,8 +21,8 @@ public abstract class Game{
 	private Level activeLevel = null;
 	private int levelSize = 0;
 	private String title = "Nebulous2D Game Engine";
-	private int width = 1366;
-	private int height = 768;
+	private int width = 640;
+	private int height = 480;
 	public Window window = null;
 	
 	private double updateSpeed = 1.0 / 60;
@@ -135,7 +134,7 @@ public abstract class Game{
 	public void addLevel(String tag, Level level){
 		levels.put(tag, level);
 		tags.add(tag);
-		level.init();
+		level.init();		//TODO: SHOULD NOT WORK LIKE THIS! Load upon loading the level
 		levelSize++;
 	}
 
@@ -149,6 +148,11 @@ public abstract class Game{
 
 	public void setActiveLevel(Level level) {
 		this.activeLevel = level;
+		level.init();
+	}
+
+	public int getLevelSize() {
+		return levelSize;
 	}
 
 }

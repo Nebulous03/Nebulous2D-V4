@@ -44,13 +44,13 @@ public abstract class Entity extends GameObject{
 				for(int j = 0; j < 5; j++){
 					int xTile = (int)(((pos.x) + 0.5f) - (5)) + i;
 					int yTile = (int)(((pos.y) + 0.5f) - (5)) + j;
-					System.out.println(xTile + ", " + yTile + ", " + boxes[i]);
 					try{ boxes[i + j * 5] = map.getTileAABB(xTile, yTile);
 					} catch (Exception e) {}
 				}
 			}
 			
 			for(int i = 0; i < 25; i++){
+				
 			}
 			
 			CollisionAABBV2 box = null;
@@ -70,7 +70,6 @@ public abstract class Entity extends GameObject{
 				if(event.intersecting){ 
 					aabb.updatePosition(box, event);
 					pos.set(aabb.getCenter());
-					System.out.println("COLLIDE");
 				}
 			}
 			
